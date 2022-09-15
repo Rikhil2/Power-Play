@@ -10,6 +10,8 @@ It takes the size of the countour(size of the block on the screen) and stops the
 
 This pipeline is not in use but most likely I will use a
 PID controller to loop the feedback from the camera to the robot speed.
+
+to be used for cones and poles
  */
 
 package org.firstinspires.ftc.teamcode.vision;
