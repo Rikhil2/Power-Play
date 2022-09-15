@@ -15,13 +15,22 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class RunCamera extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        OpenCvWebcam webcam;
+        OpenCvWebcam webcam, webcam1, webcam2, webcam3;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 2");
+        webcam1 = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 3");
+        webcam2 = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 4");
+        webcam3 = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+
         MainPipeline myPipeline = new MainPipeline();
-        webcam.setPipeline(myPipeline);
+//        webcam.setPipeline(myPipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -29,7 +38,17 @@ public class RunCamera extends LinearOpMode {
             public void onOpened()
             {
                 webcam.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
-                FtcDashboard.getInstance().startCameraStream(webcam, 30);
+//                FtcDashboard.getInstance().startCameraStream(webcam, 30);
+/*
+                webcam1.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
+                FtcDashboard.getInstance().startCameraStream(webcam1, 30);
+
+                webcam2.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
+                FtcDashboard.getInstance().startCameraStream(webcam2, 30);
+
+                webcam3.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
+                FtcDashboard.getInstance().startCameraStream(webcam3, 30);
+*/
             }
             @Override
             public void onError(int errorCode)
@@ -40,28 +59,6 @@ public class RunCamera extends LinearOpMode {
             }
         });
 
-        int duckPosition = myPipeline.getDuckPosition();
-
-        while (!isStarted() && !isStopRequested())
-        {
-            telemetry.addData("Realtime analysis ", myPipeline.getDuckPosition());
-            telemetry.update();
-            duckPosition = myPipeline.getDuckPosition();
-
-            // Don't burn CPU cycles busy-looping in this sample
-            sleep(50);
-        }
-
-        if (duckPosition == 0) {
-            telemetry.addData("Duck position: ", "left");
-            telemetry.update();
-        } else if (duckPosition == 1) {
-            telemetry.addData("Duck position: ", "middle");
-            telemetry.update();
-        } else if (duckPosition == 2) {
-            telemetry.addData("Duck position: ", "right");
-            telemetry.update();
-        }
 
         sleep(10000);
 
