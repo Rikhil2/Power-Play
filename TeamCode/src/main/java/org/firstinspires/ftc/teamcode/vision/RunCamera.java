@@ -11,97 +11,56 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name="camera test", group="none")
+@Autonomous(name="camera", group="none")
 public class RunCamera extends LinearOpMode {
+    OpenCvWebcam webcam1, webcam2, webcam3, webcam4;
     @Override
     public void runOpMode() throws InterruptedException {
-        OpenCvWebcam webcam, webcam1, webcam2, webcam3;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 2");
-        webcam1 = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+        int[] viewportContainerIds = OpenCvCameraFactory.getInstance()
+                .splitLayoutForMultipleViewports(
+                        cameraMonitorViewId, //The container we're splitting
+                        2, //The number of sub-containers to create
+                        OpenCvCameraFactory.ViewportSplitMethod.VERTICALLY); //Whether to split the container vertically or horizontally
 
-        depthMapPipeline myPipeline = new depthMapPipeline();
-        webcam.setPipeline(myPipeline);
+        webcam1 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), viewportContainerIds[0]);
+        webcam2 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), viewportContainerIds[1]);
 
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+
+//        MainPipeline myPipeline = new MainPipeline();
+//        webcam.setPipeline(myPipeline);
+
+        webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
-                FtcDashboard.getInstance().startCameraStream(webcam, 30);
+                webcam1.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
+//                FtcDashboard.getInstance().startCameraStream(webcam1, 30);
             }
             @Override
-            public void onError(int errorCode) {
-                //do nothing
-            }
+            public void onError(int errorCode) {}
         });
 
-        int[] step = {1};
-
-        if (step[0]%2 == 0) {
-            webcam1.closeCameraDeviceAsync(new OpenCvCamera.AsyncCameraCloseListener() {
-                @Override
-                public void onClose() {
-                    webcam1.stopStreaming();
-                }
-            });
-            webcam.setPipeline(myPipeline);
-            webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        webcam2.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
             {
-                @Override
-                public void onOpened()
-                {
-                    webcam.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
-                    FtcDashboard.getInstance().startCameraStream(webcam, 30);
-                    step[0]++;
-                }
-                @Override
-                public void onError(int errorCode)
-                {
-                    /*
-                     * This will be called if the camera could not be opened
-                     */
-                }
-            });
-        } else if (step[0]%2 == 1) {
-            webcam.closeCameraDeviceAsync(new OpenCvCamera.AsyncCameraCloseListener() {
-                @Override
-                public void onClose() {
-                    webcam.stopStreaming();
-                }
-            });
-            webcam1.setPipeline(myPipeline);
-            webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-            {
-                @Override
-                public void onOpened()
-                {
-                    webcam.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
-                    FtcDashboard.getInstance().startCameraStream(webcam, 30);
-                    step[0]++;
-                }
-                @Override
-                public void onError(int errorCode)
-                {
-                    /*
-                     * This will be called if the camera could not be opened
-                     */
-                }
-            });
-        }
+                webcam2.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
+//                FtcDashboard.getInstance().startCameraStream(webcam2, 30);
+            }
+            @Override
+            public void onError(int errorCode) {}
+        });
 
-
-
-        sleep(10000);
+        while (!isStarted() && !isStopRequested()) {}
 
         telemetry.addData("Program finished! ", "Prompt will remain on screen for 10 seconds then program will end.");
         telemetry.update();
 
-        sleep(10000);
+        sleep(500);
 
     }
 }
