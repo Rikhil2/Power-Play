@@ -11,7 +11,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name="camera", group="none")
+@Autonomous(name="multiple cameras", group="none")
 public class RunCamera extends LinearOpMode {
     OpenCvWebcam webcam1, webcam2, webcam3, webcam4;
     @Override
@@ -36,8 +36,8 @@ public class RunCamera extends LinearOpMode {
             @Override
             public void onOpened()
             {
-                webcam1.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
-//                FtcDashboard.getInstance().startCameraStream(webcam1, 30);
+                webcam1.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                FtcDashboard.getInstance().startCameraStream(webcam1, 30);
             }
             @Override
             public void onError(int errorCode) {}
@@ -48,8 +48,8 @@ public class RunCamera extends LinearOpMode {
             @Override
             public void onOpened()
             {
-                webcam2.startStreaming(544, 288, OpenCvCameraRotation.UPRIGHT);
-//                FtcDashboard.getInstance().startCameraStream(webcam2, 30);
+                webcam2.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                FtcDashboard.getInstance().startCameraStream(webcam2, 30);
             }
             @Override
             public void onError(int errorCode) {}

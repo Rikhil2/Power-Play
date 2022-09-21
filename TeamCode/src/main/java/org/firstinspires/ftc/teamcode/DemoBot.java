@@ -34,7 +34,7 @@ public class DemoBot extends LinearOpMode {
 
         claw2 = hardwareMap.servo.get("claw2");
         ServoControllerEx claw2Controller = (ServoControllerEx) claw2.getController();
-        int claw2ServoPort = claw1.getPortNumber();
+        int claw2ServoPort = claw2.getPortNumber();
         PwmControl.PwmRange claw2PwmRange = new PwmControl.PwmRange(600, 2208);
         claw2Controller.setServoPwmRange(claw2ServoPort, claw2PwmRange);
 
