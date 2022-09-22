@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BlockDetection extends OpenCvPipeline {
+public class PoleDetection extends OpenCvPipeline {
     Telemetry telemetry;
 
     static final Scalar GOLD = new Scalar(255, 215, 0);
@@ -46,7 +46,7 @@ public class BlockDetection extends OpenCvPipeline {
     public List<MatOfPoint> yellowContours;
 
     public MatOfPoint biggestContour;
-    public BlockDetection(Telemetry telemetry) {
+    public PoleDetection(Telemetry telemetry) {
         yellowContours = new ArrayList<MatOfPoint>();
         yellowRect = new ArrayList<Rect>();
         YellowRect = new Rect();
@@ -61,6 +61,8 @@ public class BlockDetection extends OpenCvPipeline {
     }
 
     // Yellow masking thresholding values:
+
+    //TODO need to retune
     Scalar lowYellow = new Scalar(10, 125, 150); //10, 100, 50
     Scalar highYellow = new Scalar(35, 255, 255); //35, 255, 255
 
@@ -109,8 +111,6 @@ public class BlockDetection extends OpenCvPipeline {
                     yellowContourCount++;
                 }
             }
-
-
 
             telemetry.addData("Yellow Contour Count", yellowContourCount);
 
