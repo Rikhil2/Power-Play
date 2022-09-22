@@ -20,7 +20,7 @@ public class RunOneCamera extends LinearOpMode {
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
-        DepthMapPipeline myPipeline = new DepthMapPipeline();
+        PoleDetection myPipeline = new PoleDetection(telemetry);
         webcam.setPipeline(myPipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
