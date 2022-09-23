@@ -15,6 +15,8 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class RunOneCamera extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+        double realDistance = 0;
+
         OpenCvWebcam webcam;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
@@ -42,7 +44,10 @@ public class RunOneCamera extends LinearOpMode {
 
 
         while (!isStarted() && !isStopRequested()) {
-            sleep(50);
+            if (realDistance < myPipeline.Distance())
+                realDistance = myPipeline.Distance();
         }
+
+        telemetry.addData("Approximate distance:", realDistance);
     }
 }

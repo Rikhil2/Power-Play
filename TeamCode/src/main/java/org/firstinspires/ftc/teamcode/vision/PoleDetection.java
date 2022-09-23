@@ -62,7 +62,6 @@ public class PoleDetection extends OpenCvPipeline {
 
     // Yellow masking thresholding values:
 
-    //TODO need to retune
     Scalar lowYellow = new Scalar(10, 125, 150); //10, 100, 50
     Scalar highYellow = new Scalar(35, 255, 255); //35, 255, 255
 
@@ -75,6 +74,10 @@ public class PoleDetection extends OpenCvPipeline {
     // Kernel size for blurring
     Size kSize = new Size(5, 5);
     Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size((2 * 2) + 1, (2 * 2) + 1));
+
+    double width, distance;
+
+    double k = 10732.4805;
 
     @Override
     public Mat processFrame(Mat input) {
@@ -117,6 +120,10 @@ public class PoleDetection extends OpenCvPipeline {
             // Displays the position of the center of each bounding rect (rect.x/y returns the top left position)
             for (int i = 0; i < yellowRect.size(); i++){
                 telemetry.addData("Yellow Contour " + (i+1), "%7d,%7d", yellowRect.get(i).x + (yellowRect.get(i).width/2), yellowRect.get(i).y + (yellowRect.get(i).height/2));
+                width = yellowRect.get(i).width;
+                telemetry.addData("width", width);
+                distance = Math.sqrt(k/width);
+                telemetry.addData("distance", distance);
             }
 
             maskYellow.release();
@@ -126,6 +133,10 @@ public class PoleDetection extends OpenCvPipeline {
 
         HSV.release();
 
+        telemetry.update();
+
         return input;
     }
+
+    public double Distance () {return distance;}
 }

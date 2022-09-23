@@ -36,8 +36,6 @@ public class DepthMapPipeline extends OpenCvPipeline {
         Imgproc.cvtColor(input, gray, Imgproc.COLOR_RGB2GRAY);
         Imgproc.Canny(gray, edgeDetectorFrame, bottomThreshold, topThreshold);
         //TODO determine pixel width of poles in camera, start testing then do inverse square regression for distance
-
-
         contours.clear();
         Imgproc.findContours(edgeDetectorFrame, contours, new Mat(), Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
         Imgproc.drawContours(input, contours, -1, blue);
