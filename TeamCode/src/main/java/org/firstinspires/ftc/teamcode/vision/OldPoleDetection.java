@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PoleDetection extends OpenCvPipeline {
+public class OldPoleDetection extends OpenCvPipeline {
     Telemetry telemetry;
 
     static final Scalar GOLD = new Scalar(255, 215, 0);
@@ -47,7 +47,7 @@ public class PoleDetection extends OpenCvPipeline {
 
     public MatOfPoint biggestContour;
 
-    public PoleDetection(Telemetry telemetry) {
+    public OldPoleDetection(Telemetry telemetry) {
         yellowContours = new ArrayList<MatOfPoint>();
         yellowRect = new ArrayList<Rect>();
         YellowRect = new Rect();
