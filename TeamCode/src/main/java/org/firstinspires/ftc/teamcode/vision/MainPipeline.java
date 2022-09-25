@@ -6,8 +6,12 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 public class MainPipeline extends OpenCvPipeline {
-    public Scalar lower = new Scalar(66.6, 140.3, 0);
-    public Scalar upper = new Scalar(225.3, 255, 92.1);
+    public Scalar lower;
+    public Scalar upper;
+    public MainPipeline (double lowerR, double lowerG, double lowerB, double upperR, double upperG, double upperB) {
+        lower = new Scalar(lowerR, lowerG, lowerB);
+        upper = new Scalar(upperR, upperG, upperB);
+    }
     private Mat ycrcbMat       = new Mat();
     private Mat binaryMat      = new Mat();
     private Mat maskedInputMat = new Mat();
