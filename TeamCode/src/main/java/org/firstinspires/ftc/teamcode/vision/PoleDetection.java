@@ -46,6 +46,7 @@ public class PoleDetection extends OpenCvPipeline {
     public List<MatOfPoint> yellowContours;
 
     public MatOfPoint biggestContour;
+
     public PoleDetection(Telemetry telemetry) {
         yellowContours = new ArrayList<MatOfPoint>();
         yellowRect = new ArrayList<Rect>();

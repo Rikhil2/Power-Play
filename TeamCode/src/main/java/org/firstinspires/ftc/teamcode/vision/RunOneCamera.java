@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.internal.android.dx.command.Main;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -22,7 +23,7 @@ public class RunOneCamera extends LinearOpMode {
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
-        PoleDetection myPipeline = new PoleDetection(telemetry);
+        MainPipeline myPipeline = new MainPipeline();
         webcam.setPipeline(myPipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -43,10 +44,7 @@ public class RunOneCamera extends LinearOpMode {
         });
 
 
-        while (!isStarted() && !isStopRequested()) {
-            if (realDistance < myPipeline.Distance())
-                realDistance = myPipeline.Distance();
-        }
+        while (!isStarted() && !isStopRequested()) {}
 
         telemetry.addData("Approximate distance:", realDistance);
     }

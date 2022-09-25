@@ -15,16 +15,6 @@ public class MainPipeline extends OpenCvPipeline {
     private Mat binaryMat      = new Mat();
     private Mat maskedInputMat = new Mat();
 
-
-    Point A1 = new Point(0, 200);
-    Point B1 = new Point(181, 288);
-
-    Point A2 = new Point(181, 200);
-    Point B2 = new Point(363, 288);
-
-    Point A3 = new Point(363, 200);
-    Point B3 = new Point(544, 288);
-
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2YCrCb);
@@ -75,65 +65,6 @@ public class MainPipeline extends OpenCvPipeline {
         Scalar BLUE = new Scalar(0, 0, 255);
         Scalar RED = new Scalar(255, 0, 0);
 
-        int avg_colorLeft = (int) Core.mean(maskedInputMat.submat(new Rect(A1, B1))).val[3];
-        int avg_colorMiddle = (int) Core.mean(maskedInputMat.submat(new Rect(A2, B2))).val[3];
-        int avg_colorRight = (int) Core.mean(maskedInputMat.submat(new Rect(A3, B3))).val[3];
-
-        Imgproc.rectangle(
-                maskedInputMat,
-                A1,
-                B1,
-                RED,
-                (int)0.5);
-        Imgproc.rectangle(
-                maskedInputMat,
-                A2,
-                B2,
-                RED,
-                (int)0.5);
-        Imgproc.rectangle(
-                maskedInputMat,
-                A3,
-                B3,
-                RED,
-                (int)0.5);
-
-        int maximum = Math.max(Math.max(avg_colorLeft, avg_colorMiddle), avg_colorRight);
-
-        if (maximum == avg_colorLeft) {
-            duckpos = 0;
-            Imgproc.rectangle(
-                    maskedInputMat,
-                    A1,
-                    B1,
-                    GREEN,
-                    (int)0.5);
-        }
-        if (maximum == avg_colorMiddle) {
-            duckpos = 1;
-            Imgproc.rectangle(//test
-                    maskedInputMat,
-                    A2,
-                    B2,
-                    GREEN,
-                    (int)0.5);
-        }
-        if (maximum == avg_colorRight) {
-            duckpos = 2;
-            Imgproc.rectangle(
-                    maskedInputMat,
-                    A3,
-                    B3,
-                    GREEN,
-                    (int)0.5);
-        }
-
         return maskedInputMat;
     }
-
-    public int getDuckPosition()
-    {
-        return duckpos;
-    }
-
 }
