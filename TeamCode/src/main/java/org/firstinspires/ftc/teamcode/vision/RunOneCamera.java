@@ -16,13 +16,6 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Config
 @Autonomous(name="one camera", group="none")
 public class RunOneCamera extends LinearOpMode {
-    public static double lowerR = 0;
-    public static double lowerG = 0;
-    public static double lowerB = 0;
-    public static double topR = 255;
-    public static double topG = 255;
-    public static double topB = 255;
-
     @Override
     public void runOpMode() throws InterruptedException {
         double realDistance = 0;
@@ -32,7 +25,7 @@ public class RunOneCamera extends LinearOpMode {
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
-        MainPipeline myPipeline = new MainPipeline(lowerR, lowerG, lowerB, topR, topG, topB);
+        MainPipeline myPipeline = new MainPipeline(telemetry);
         webcam.setPipeline(myPipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()

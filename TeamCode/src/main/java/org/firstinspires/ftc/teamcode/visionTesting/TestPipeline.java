@@ -66,7 +66,7 @@ public class TestPipeline extends OpenCvPipeline {
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2YCrCb);
         Core.extractChannel(ycrcbMat, ycrcbMat, 2);
-        Imgproc.threshold(ycrcbMat, binaryMat, 80, 110, Imgproc.THRESH_BINARY_INV);
+        Imgproc.threshold(ycrcbMat, binaryMat, 100, 110, Imgproc.THRESH_BINARY_INV);
         morphMask(binaryMat, morphedThreshold);
 
         yellowContours.clear();
@@ -78,6 +78,8 @@ public class TestPipeline extends OpenCvPipeline {
         for (int i = 0; i < yellowContours.size(); i++){
             for (int j = 0; j < 3; j++) {
                 distance.add((double)yellowContours.get(i).height());
+                telemetry.addData("yellow contour width: ", yellowContours.get(i).height());
+                telemetry.update();
             }
         }
 
