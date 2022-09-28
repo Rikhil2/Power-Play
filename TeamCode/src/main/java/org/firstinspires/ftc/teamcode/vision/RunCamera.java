@@ -13,7 +13,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name="multiple cameras", group="none")
 public class RunCamera extends LinearOpMode {
-    OpenCvWebcam webcam1, webcam2, webcam3, webcam4;
+    OpenCvWebcam webcam1, webcam2;
     @Override
     public void runOpMode() throws InterruptedException {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -28,8 +28,10 @@ public class RunCamera extends LinearOpMode {
         webcam2 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), viewportContainerIds[1]);
 
 
-//        MainPipeline myPipeline = new MainPipeline();
-//        webcam.setPipeline(myPipeline);
+        MultipleWebcamPipelineRight right = new MultipleWebcamPipelineRight();
+        MultipleWebcamPipelineLeft left = new MultipleWebcamPipelineLeft();
+        webcam1.setPipeline(right);
+        webcam2.setPipeline(left);
 
         webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -37,7 +39,6 @@ public class RunCamera extends LinearOpMode {
             public void onOpened()
             {
                 webcam1.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-                FtcDashboard.getInstance().startCameraStream(webcam1, 30);
             }
             @Override
             public void onError(int errorCode) {}
@@ -48,7 +49,6 @@ public class RunCamera extends LinearOpMode {
             @Override
             public void onOpened()
             {
-                webcam2.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(webcam2, 30);
             }
             @Override
@@ -57,10 +57,10 @@ public class RunCamera extends LinearOpMode {
 
         while (!isStarted() && !isStopRequested()) {}
 
-        telemetry.addData("Program finished! ", "Prompt will remain on screen for 10 seconds then program will end.");
+        telemetry.addData("Program finished! ", "Prompt will remain on screen for 3 seconds then program will end.");
         telemetry.update();
 
-        sleep(500);
+        sleep(3000);
 
     }
 }
