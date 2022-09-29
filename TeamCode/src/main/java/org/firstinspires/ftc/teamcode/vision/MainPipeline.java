@@ -13,13 +13,13 @@ public class MainPipeline extends OpenCvPipeline {
     public MainPipeline(Telemetry telemetry) {
         this.telemetry = telemetry;
     }
-    List<MatOfPoint> yellowContours = new ArrayList<MatOfPoint>();
+    List<MatOfPoint> yellowContours = new ArrayList<>();
     double k = 1;
-    List <MatOfPoint> yellowRect = new ArrayList<MatOfPoint>();
-    List <Double> distance = new ArrayList<Double>();
-    private Mat ycrcbMat       = new Mat();
-    private Mat binaryMat      = new Mat();
-    private Mat maskedInputMat = new Mat();
+    List <MatOfPoint> yellowRect = new ArrayList<>();
+    List <Double> distance = new ArrayList<>();
+    private final Mat ycrcbMat       = new Mat();
+    private final Mat binaryMat      = new Mat();
+    private final Mat maskedInputMat = new Mat();
     Mat morphedThreshold = new Mat();
     Scalar RED = new Scalar(255, 0, 0);
     Scalar GREEN = new Scalar(0, 255, 0);
