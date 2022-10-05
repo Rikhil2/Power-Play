@@ -50,4 +50,29 @@ public class TestPipeline extends OpenCvPipeline {
         Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGB2GRAY);
         return grey;
     }
+
+    public void setDecimation(float decimation)
+    {
+        synchronized (decimationSync)
+        {
+            this.decimation = decimation;
+            needToSetDecimation = true;
+        }
+    }
+
+    public ArrayList<AprilTagDetection> getLatestDetections()
+    {
+        return detections;
+    }
+
+    public ArrayList<AprilTagDetection> getDetectionsUpdate()
+    {
+        synchronized (detectionsUpdateSync)
+        {
+            ArrayList<AprilTagDetection> ret = detectionsUpdate;
+            detectionsUpdate = null;
+            return ret;
+        }
+    }
+
 }
