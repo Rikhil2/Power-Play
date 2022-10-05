@@ -16,6 +16,7 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.apriltag.AprilTagDetectorJNI;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
@@ -51,6 +52,22 @@ public class TestPipeline extends OpenCvPipeline {
     private float decimation;
     private boolean needToSetDecimation;
     private final Object decimationSync = new Object();
+
+    @Override
+    public void finalize()
+    {
+        // Might be null if createApriltagDetector() threw an exception
+        if(nativeApriltagPtr != 0)
+        {
+            // Delete the native context we created in the constructor
+            AprilTagDetectorJNI.releaseApriltagDetector(nativeApriltagPtr);
+            nativeApriltagPtr = 0;
+        }
+        else
+        {
+            System.out.println("AprilTagDetectionPipeline.finalize(): nativeApriltagPtr was NULL");
+        }
+    }
 
     @Override
     public Mat processFrame(Mat input) {
