@@ -17,72 +17,8 @@ import java.util.List;
 public class TestPipeline extends OpenCvPipeline {
 
     Telemetry telemetry;
-    List<MatOfPoint> yellowContours = new ArrayList<MatOfPoint>();
-
-    double k = 1;
-
-    Rect YellowRect = new Rect();
-    List <MatOfPoint> yellowRect = new ArrayList<MatOfPoint>();
-    List <Double> distance = new ArrayList<Double>();
-
-    public TestPipeline(Telemetry telemetry) {
-        this.telemetry = telemetry;
-    }
-    public Scalar lower = new Scalar(0, 0, 0);;
-    public Scalar upper = new Scalar(255, 255, 255);
-
-    int minSize = 100;
-
-    MatOfPoint biggestContour = new MatOfPoint();
-
-    private Mat ycrcbMat       = new Mat();
-    private Mat binaryMat      = new Mat();
-    private Mat maskedInputMat = new Mat();
-    Mat morphedThreshold = new Mat();
-
-    Mat hierarchy = new Mat();
-
-    Scalar RED = new Scalar(255, 0, 0);
-    Scalar GREEN = new Scalar(0, 255, 0);
-
-    Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(15, 15));
-    Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(15, 15));
-
-    void morphMask(Mat input, Mat output)
-    {
-        /*
-         * Apply some erosion and dilation for noise reduction
-         */
-
-        Imgproc.erode(input, output, erodeElement);
-        Imgproc.erode(output, output, erodeElement);
-
-        Imgproc.dilate(output, output, dilateElement);
-        Imgproc.dilate(output, output, dilateElement);
-    }
-
-
     @Override
     public Mat processFrame(Mat input) {
-        Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2YCrCb);
-        Core.extractChannel(ycrcbMat, ycrcbMat, 2);
-        Imgproc.threshold(ycrcbMat, binaryMat, 100, 110, Imgproc.THRESH_BINARY_INV);
-        morphMask(binaryMat, morphedThreshold);
-
-        yellowContours.clear();
-        yellowRect.clear();
-
-        Imgproc.findContours(morphedThreshold, yellowContours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-        Imgproc.drawContours(input, yellowContours, -1, RED);
-
-        for (int i = 0; i < yellowContours.size(); i++){
-            for (int j = 0; j < 3; j++) {
-                distance.add((double)yellowContours.get(i).height());
-                telemetry.addData("yellow contour width: ", yellowContours.get(i).height());
-                telemetry.update();
-            }
-        }
-
         return input;
     }
 }
