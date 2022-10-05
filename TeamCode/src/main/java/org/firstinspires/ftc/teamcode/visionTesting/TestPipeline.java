@@ -27,6 +27,16 @@ public class TestPipeline extends OpenCvPipeline {
 
     Mat cameraMatrix;
 
+    Scalar blue = new Scalar(7,197,235,255);
+    Scalar red = new Scalar(255,0,0,255);
+    Scalar green = new Scalar(0,255,0,255);
+    Scalar white = new Scalar(255,255,255,255);
+
+    double fx;
+    double fy;
+    double cx;
+    double cy;
+
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGB2GRAY);
