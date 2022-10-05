@@ -37,6 +37,14 @@ public class TestPipeline extends OpenCvPipeline {
     double cx;
     double cy;
 
+    double tagsize;
+    double tagsizeX;
+    double tagsizeY;
+
+    private float decimation;
+    private boolean needToSetDecimation;
+    private final Object decimationSync = new Object();
+
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGB2GRAY);
