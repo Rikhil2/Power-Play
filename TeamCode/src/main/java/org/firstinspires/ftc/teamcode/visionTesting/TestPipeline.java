@@ -40,10 +40,10 @@ public class TestPipeline extends OpenCvPipeline {
     Scalar green = new Scalar(0,255,0,255);
     Scalar white = new Scalar(255,255,255,255);
 
-    double fx;
-    double fy;
-    double cx;
-    double cy;
+    double fx = 822.317;
+    double fy = 822.317;
+    double cx = 319.495;
+    double cy = 242.502;
 
     double tagsize;
     double tagsizeX;
