@@ -17,8 +17,11 @@ import java.util.List;
 public class TestPipeline extends OpenCvPipeline {
 
     Telemetry telemetry;
+    Mat grey = new Mat();
+
     @Override
     public Mat processFrame(Mat input) {
-        return input;
+        Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGB2GRAY);
+        return grey;
     }
 }
