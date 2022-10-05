@@ -52,12 +52,12 @@ public class TestPipeline extends OpenCvPipeline {
     private float decimation;
     private boolean needToSetDecimation;
     private final Object decimationSync = new Object();
-
+/*
     public TestPipeline () {
         constructMatrix();
         nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
     }
-
+*/
     @Override
     public void finalize()
     {
