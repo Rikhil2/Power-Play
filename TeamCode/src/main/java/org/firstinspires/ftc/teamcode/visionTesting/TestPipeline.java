@@ -22,6 +22,11 @@ public class TestPipeline extends OpenCvPipeline {
     private Mat grey = new Mat();
     private ArrayList<AprilTagDetection> detections = new ArrayList<>();
 
+    private ArrayList<AprilTagDetection> detectionsUpdate = new ArrayList<>();
+    private final Object detectionsUpdateSync = new Object();
+
+    Mat cameraMatrix;
+
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGB2GRAY);
