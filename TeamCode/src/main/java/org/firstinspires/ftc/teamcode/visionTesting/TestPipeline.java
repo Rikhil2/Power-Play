@@ -45,13 +45,18 @@ public class TestPipeline extends OpenCvPipeline {
     double cx = 319.495;
     double cy = 242.502;
 
-    double tagsize;
-    double tagsizeX;
-    double tagsizeY;
+    double tagsize = 0.166;//in meters
+    double tagsizeX = tagsize;
+    double tagsizeY = tagsize;
 
     private float decimation;
     private boolean needToSetDecimation;
     private final Object decimationSync = new Object();
+
+    public TestPipeline () {
+        constructMatrix();
+        nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
+    }
 
     @Override
     public void finalize()
