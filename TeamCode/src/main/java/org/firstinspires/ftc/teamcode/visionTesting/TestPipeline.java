@@ -53,6 +53,7 @@ public class TestPipeline extends OpenCvPipeline {
     private boolean needToSetDecimation;
     private final Object decimationSync = new Object();
 /*
+*****EOCV sim cannot do constructors
     public TestPipeline () {
         constructMatrix();
         nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
@@ -76,8 +77,35 @@ public class TestPipeline extends OpenCvPipeline {
 
     @Override
     public Mat processFrame(Mat input) {
-        Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGB2GRAY);
-        return grey;
+        Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGBA2GRAY);
+
+        synchronized (decimationSync)
+        {
+            if(needToSetDecimation)
+            {
+                AprilTagDetectorJNI.setApriltagDetectorDecimation(nativeApriltagPtr, decimation);
+                needToSetDecimation = false;
+            }
+        }
+
+        // Run AprilTag
+        detections = AprilTagDetectorJNI.runAprilTagDetectorSimple(nativeApriltagPtr, grey, tagsize, fx, fy, cx, cy);
+
+        synchronized (detectionsUpdateSync)
+        {
+            detectionsUpdate = detections;
+        }
+
+        // For fun, use OpenCV to draw 6DOF markers on the image. We actually recompute the pose using
+        // OpenCV because I haven't yet figured out how to re-use AprilTag's pose in OpenCV.
+        for(AprilTagDetection detection : detections)
+        {
+            Pose pose = poseFromTrapezoid(detection.corners, cameraMatrix, tagsizeX, tagsizeY);
+            drawAxisMarker(input, tagsizeY/2.0, 6, pose.rvec, pose.tvec, cameraMatrix);
+            draw3dCubeMarker(input, tagsizeX, tagsizeX, tagsizeY, 5, pose.rvec, pose.tvec, cameraMatrix);
+        }
+
+        return input;
     }
 
     public void setDecimation(float decimation)
