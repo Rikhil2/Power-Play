@@ -8,6 +8,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
@@ -17,7 +18,9 @@ import java.util.List;
 public class TestPipeline extends OpenCvPipeline {
 
     Telemetry telemetry;
-    Mat grey = new Mat();
+    private long nativeApriltagPtr;
+    private Mat grey = new Mat();
+    private ArrayList<AprilTagDetection> detections = new ArrayList<>();
 
     @Override
     public Mat processFrame(Mat input) {
