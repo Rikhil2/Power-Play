@@ -173,4 +173,46 @@ public class TestPipeline extends OpenCvPipeline {
         Imgproc.line(buf, projectedPoints[4], projectedPoints[7], green, thickness);
     }
 
+    Pose poseFromTrapezoid(Point[] points, Mat cameraMatrix, double tagsizeX , double tagsizeY)
+    {
+        // The actual 2d points of the tag detected in the image
+        MatOfPoint2f points2d = new MatOfPoint2f(points);
+
+        // The 3d points of the tag in an 'ideal projection'
+        Point3[] arrayPoints3d = new Point3[4];
+        arrayPoints3d[0] = new Point3(-tagsizeX/2, tagsizeY/2, 0);
+        arrayPoints3d[1] = new Point3(tagsizeX/2, tagsizeY/2, 0);
+        arrayPoints3d[2] = new Point3(tagsizeX/2, -tagsizeY/2, 0);
+        arrayPoints3d[3] = new Point3(-tagsizeX/2, -tagsizeY/2, 0);
+        MatOfPoint3f points3d = new MatOfPoint3f(arrayPoints3d);
+
+        // Using this information, actually solve for pose
+        Pose pose = new Pose();
+        Calib3d.solvePnP(points3d, points2d, cameraMatrix, new MatOfDouble(), pose.rvec, pose.tvec, false);
+
+        return pose;
+    }
+
+    /*
+     * A simple container to hold both rotation and translation
+     * vectors, which together form a 6DOF pose.
+     */
+    class Pose
+    {
+        Mat rvec;
+        Mat tvec;
+
+        public Pose()
+        {
+            rvec = new Mat();
+            tvec = new Mat();
+        }
+
+        public Pose(Mat rvec, Mat tvec)
+        {
+            this.rvec = rvec;
+            this.tvec = tvec;
+        }
+    }
+
 }
