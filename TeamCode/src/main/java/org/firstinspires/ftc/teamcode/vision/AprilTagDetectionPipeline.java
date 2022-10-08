@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.vision;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.visionTesting.TestPipeline;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -53,7 +54,7 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline {
     private boolean needToSetDecimation;
     private final Object decimationSync = new Object();
 
-    public void TestPipeline () {
+    public AprilTagDetectionPipeline () {
         constructMatrix();
         nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
     }
@@ -99,7 +100,7 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline {
         // OpenCV because I haven't yet figured out how to re-use AprilTag's pose in OpenCV.
         for(AprilTagDetection detection : detections)
         {
-            Pose pose = poseFromTrapezoid(detection.corners, cameraMatrix, tagsizeX, tagsizeY);
+            AprilTagDetectionPipeline.Pose pose = poseFromTrapezoid(detection.corners, cameraMatrix, tagsizeX, tagsizeY);
             drawAxisMarker(input, tagsizeY/2.0, 6, pose.rvec, pose.tvec, cameraMatrix);
             draw3dCubeMarker(input, tagsizeX, tagsizeX, tagsizeY, 5, pose.rvec, pose.tvec, cameraMatrix);
         }
@@ -222,7 +223,7 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline {
         Imgproc.line(buf, projectedPoints[4], projectedPoints[7], green, thickness);
     }
 
-    Pose poseFromTrapezoid(Point[] points, Mat cameraMatrix, double tagsizeX , double tagsizeY)
+    AprilTagDetectionPipeline.Pose poseFromTrapezoid(Point[] points, Mat cameraMatrix, double tagsizeX , double tagsizeY)
     {
         // The actual 2d points of the tag detected in the image
         MatOfPoint2f points2d = new MatOfPoint2f(points);
@@ -236,7 +237,7 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline {
         MatOfPoint3f points3d = new MatOfPoint3f(arrayPoints3d);
 
         // Using this information, actually solve for pose
-        Pose pose = new Pose();
+        AprilTagDetectionPipeline.Pose pose = new AprilTagDetectionPipeline.Pose();
         Calib3d.solvePnP(points3d, points2d, cameraMatrix, new MatOfDouble(), pose.rvec, pose.tvec, false);
 
         return pose;
