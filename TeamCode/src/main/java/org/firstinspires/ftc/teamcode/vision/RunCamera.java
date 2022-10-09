@@ -14,7 +14,6 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name="multiple cameras", group="none")
 public class RunCamera extends LinearOpMode {
     OpenCvWebcam webcam1, webcam2;
-    public static int i = 0;
     @Override
     public void runOpMode() throws InterruptedException {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
