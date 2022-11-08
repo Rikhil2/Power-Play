@@ -62,7 +62,6 @@ public class PnpPipeline extends OpenCvPipeline {
                     corner3 = endpoint1;
                 else if (corner4 == null)
                     corner4 = endpoint1;
-
             }
 
             if (endpoint2 == checkEndpoint1 || endpoint2 == checkEndpoint2) {
@@ -85,7 +84,7 @@ public class PnpPipeline extends OpenCvPipeline {
         }
 
         redContours.clear();
-        iterator.clear();;
+        iterator.clear();
 
         if (i == 0) {
             cameraMatrix.put(0,0, 822.317);
@@ -118,7 +117,7 @@ public class PnpPipeline extends OpenCvPipeline {
         return input;
     }
 
-    class Pose
+    public static class Pose
     {
         Mat rvec;
         Mat tvec;
