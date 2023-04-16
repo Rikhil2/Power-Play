@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.visionTesting;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.CvType;
@@ -15,7 +14,7 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.video.Video;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class MatchingTest extends OpenCvPipeline {
+public class MatchingTest extends OpenCvPipeline{
     double fx = 822.317;
     double fy = 822.317;
     double cx = 319.495;

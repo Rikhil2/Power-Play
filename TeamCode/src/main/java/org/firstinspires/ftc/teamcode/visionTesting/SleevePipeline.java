@@ -10,8 +10,8 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 public class SleevePipeline extends OpenCvPipeline {
-    Point pointA = new Point(0, 0);
-    Point pointB = new Point(100, 100);
+    public Point pointA = new Point(0, 0);
+    public Point pointB = new Point(100, 100);
     int tag;
     Telemetry telemetry;
     public SleevePipeline (Telemetry telemetry) {
