@@ -75,10 +75,10 @@ public class HomographyTesting2 extends OpenCvPipeline {
             MatOfPoint2f approxCurve = new MatOfPoint2f();
             double epsilon = 0.01 * Imgproc.arcLength(new MatOfPoint2f(contour.toArray()), true);
             Imgproc.approxPolyDP(new MatOfPoint2f(contour.toArray()), approxCurve, epsilon, true);
-            if (approxCurve.total() == 4) {
+            if (approxCurve.total() == 4 && Imgproc.contourArea(approxCurve) > 100) {
                 System.out.println(approxCurve.total());
                 // Draw the contours
-                Imgproc.drawContours(input, contours, -1, new Scalar(0, 0, 255), 2);
+//                Imgproc.drawContours(input, contours, -1, new Scalar(0, 0, 255), 2);
 
                 // Draw the bounding box
                 Rect boundingRect = Imgproc.boundingRect(contour);
