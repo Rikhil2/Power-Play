@@ -1,8 +1,6 @@
-package org.firstinspires.ftc.teamcode.vision;
+package org.firstinspires.ftc.teamcode.vision.old;
 
-import org.opencv.calib3d.StereoBM;
 import org.opencv.core.Mat;
-import org.openftc.easyopencv.OpenCvPipeline;
 
 public class MultipleWebcamPipelineLeft extends MultipleWebcamPipelineRight {
     Mat disparity = new Mat();

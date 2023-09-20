@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.visionTesting;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
@@ -20,7 +22,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+@Disabled
 public class HomographyTesting2 extends OpenCvPipeline {
     public static Scalar lowerRed1 = new Scalar(116.2, 204, 177.1);
     public static Scalar upperRed1 = new Scalar(117.6, 255, 255);
